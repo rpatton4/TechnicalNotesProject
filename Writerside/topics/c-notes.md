@@ -2,6 +2,28 @@
 
 {style="note"}
 
+## `Predicate<T>`  
+**Syntax:**
+
+**Notes:**  
+`Predicate<T>` is used with delegates and anonymous function to see whether 
+something is true of the given T. It is an abbreviation basically, and afaik
+just a visual indicator that the delegate will return a bool.  
+
+Basically a predicate delegate is a reference to a function that returns true
+or false. Predicates are very useful for filtering a list of values
+
+**Examples:**  
+```C#
+Predicate<Person> oscarFinder = (Person p) => { return p.Name == "Oscar"; };
+Person oscar = people.Find(oscarFinder);
+```
+As usual, this has been replaced in simple cases with Lambda functions, with
+the same example below but using Lambda:
+```C#
+Person oscar = people.Find(p => p.Name == "Oscar");
+```
+
 ## Ternary Operator: ?
 **Syntax:** `condition ? consequent : alternative`
 
@@ -100,18 +122,84 @@ Usage example from Stack Overflow:
         }
     }
 
+## Anonymous Methods
+**Syntax:** `delegate (<paramaters>) {<sequence of statements>}`  
+or  
+`delegate {<sequence of statements>}`
+
+**Notes:**  
+This is another usage of `delegate` for the purpose of creating a function 
+which is anonymous (has no name) and is typically used to avoid clutter when 
+you need a pretty simple function. This way of doing it exists for historical
+reasons, basically because it was introduced prior to Lambda Expressions.  
+
+The compiler infers the return type. The input parameters can be omitted
+entirely using the 2nd syntax format, which is useful for clarity in some 
+cases.
+
+**Examples:**  
+```C#
+public static int GetIndexOfFirstNonEmptyBin(int[] bins)
+{
+    return Array.FindIndex(
+        bins,
+        delegate (int value) { return value > 0; }
+    );
+}
+```
+
 ## Lambda Expressions
 **Syntax:** 
-`<input parameters> => <expression>`  
+`<input parameter> => <expression>`  
 or  
-`<input parameters> => {<sequence of statements>}`
+`<input parameter> => {<sequence of statements>}`  
+or  
+`(<input parameters>) => <expression>`  
+or  
+`(_, _) => <expression>`
 
-**Notes:**
+**Notes:**  
+The expression `x => x > y` could be read as "given the value x, return the 
+boolean result of x > y"
+
 Lambda expressions are used like anonymous functions, with the difference that 
 in Lambda expressions you don't need to specify the type of the value that you 
-input thus making it more flexible to use.
+input thus making it more flexible to use. This is basically just simpler and
+more abbreviated; the delegate keyword is unnecessary now because of the =>
+symbol, and the compiler infers the input parameter as well as the return 
+value. The example below is functionally identical to the one given for 
+anonymous methods.  
 
-**Examples:**
+The syntax for the expressions has more flavors than shown above, depending on 
+things like number of parameters. Note the use of parentheses for multiple
+params (also used empty when there are no params)
+
+Underscores can be used to discard input parameters when they are forced to be
+sent, such as with event handlers.  `(_, _)` indicates that 2 params are sent
+but neither are used.
+
+**Examples:**  
+Basic example:  
+```C#
+public static int GetIndexOfFirstNonEmptyBin(int[] bins)
+{
+    return Array.FindIndex(
+        bins,
+        value => value > 0
+    );
+}
+```
+
+Using a variable from the containing method:  
+```C#
+public static Predicate<int> IsGreaterThan(int threshold)
+{
+    return value => value > threshold;
+}
+
+Predicate<int> greaterThanTen = IsGreaterThan(10);
+bool result = greaterThanTen(200);
+```
 
 ## Topic
 **Syntax:**
