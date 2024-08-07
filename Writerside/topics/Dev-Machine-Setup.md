@@ -37,4 +37,7 @@ fi
 Note that the above is what was created when Homebrew was used to install the 
 Git prompt, just edited to keep the same bash prompt.
 
+## Git Ignore
+See the note on Git Ignore File for detailed instructions
+
 

@@ -7,5 +7,6 @@
                  start-page="c-notes.md">
 
     <toc-element topic="c-notes.md"/>
+    <toc-element topic="Git-Ignore-File.md"/>
     <toc-element topic="Dev-Machine-Setup.md"/>
 </instance-profile>
