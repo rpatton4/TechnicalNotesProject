@@ -2,6 +2,16 @@
 
 {style="note"}
 
+## Logging  
+
+**Syntax:**  
+
+**Notes:**  
+- Nuget package: Microsoft.Extensions.Logging
+- Nuget package: Microsoft.Extensions.Logging.Console
+
+**Examples:**  
+
 ## Nullable  
 
 **Syntax:**  
