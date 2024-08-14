@@ -40,4 +40,12 @@ Git prompt, just edited to keep the same bash prompt.
 ## Git Ignore
 See the note on Git Ignore File for detailed instructions
 
+## Dotnet tooling
+- To update dotnet tools, specifically the Entity Framework tool:  
+  ```Bash
+  robertpatton @ Wintermute ~/Repositories/Learning
+  └─ $ ▶ dotnet tool update --global dotnet-ef
+  Tool 'dotnet-ef' was successfully updated from version '8.0.4' to version '8.0.7'.
+  ```
+
 

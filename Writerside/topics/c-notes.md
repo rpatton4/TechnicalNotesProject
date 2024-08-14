@@ -2,6 +2,117 @@
 
 {style="note"}
 
+## Nullable  
+
+**Syntax:**  
+1. The old way to allow null in value types:  
+`Nullable<int> x = null;`
+
+2. The new way:  
+`int? x = null;`  
+
+3. Telling the compiler that a non-nullable type is actually going to be set to
+ null anyway when it is created, because you know it will be given a value 
+ before it is used.  
+`private string RequiredValue = null!;`  
+`public string RequiredValue { get; set; } = null!;`  
+ 
+**Notes:**
+- Everything since .NET 6 has defaulted to enabling "Nullable Reference Types"
+  which, contrary to how it sounds, actually makes it so reference types do
+  ***not*** support null values.  In order to allow null you must use syntax 1 
+  or 2.
+- You can configure enabling or disabling Nullable Reference Types in two ways: 
+  file-based declaration or a project level flag. See examples.
+- See [link](https://wildermuth.com/2023/02/13/nullable-reference-types-in-csharp/) 
+  for a detailed explanation.
+
+**Examples:**  
+Enabling at the file level using a directive:  
+```C#
+#nullable enable
+object x = null; // Doesn't work, null isn't supported
+#nullable disable
+```
+
+Enabling in the project config:  
+```C#
+<!--csproj-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
+```
+
+## `using`
+**Syntax:**  
+`using (var) <statement(s)>`  
+or  
+  
+As an attribute in a variable declaration:  
+`using <variable declaration>;`
+**Notes:**
+- The original syntax with a parenthesis followed by a statement/block is a way 
+  of telling the compiler to dispose of the variable immediately when the 
+  statement has completed, versus waiting until garbage collection.
+- The c# 8+ addition of adding this as an attribute in a variable declaration 
+  does the same thing except the variable is disposed of when it goes out of
+  scope instead of an explicit statement or block.  
+ 
+**Examples:**
+
+## `yield`
+**Syntax:**
+`yield return <value>`
+
+**Notes:**  
+- Used to do lazy iteration over values in an abbreviated way rather than 
+  implementing your own iterator.
+- returns the next value in a sequence
+
+**Examples:**
+```C#
+public void Consumer()
+{
+    foreach(int i in Integers())
+    {
+        Console.WriteLine(i.ToString());
+    }
+}
+
+public IEnumerable<int> Integers()
+{
+    yield return 1;
+    yield return 2;
+    yield return 4;
+    yield return 8;
+    yield return 16;
+    yield return 16777216;
+}
+```
+
+This will return '1' on the first pass through the IEnumerable, then '2' on the
+second pass etc.
+
+## LINQ
+**Syntax:**
+
+**Notes:**
+- you must include/use System.Linq
+- Lets you use query syntax kinda sorta similar to SQL to select objects from a
+  collection
+- Gives you access to the Linq extension methods for querying
+- MS says to use query syntax instead of method syntax whenever possible, for
+  readability
+
+
+**Examples:**
+
 ## `Predicate<T>`  
 **Syntax:**
 
@@ -23,6 +134,41 @@ the same example below but using Lambda:
 ```C#
 Person oscar = people.Find(p => p.Name == "Oscar");
 ```
+## Func<T, TResult>
+**Syntax:**
+`Func<T, TResult>`
+
+**Notes:**
+This is used as a placeholder for code which follows a pattern but not specific
+functionality.  The quick example is with sorting or selecting elements from a
+list; you know the pattern but can't say up front what will be sorted on or the
+filter for the select.
+
+Often used in extension methods.
+
+**Examples:**
+`var names = people.Select(p => p.Name)` or `var ages = people.Select(p => 
+p.Age);` use a Func which would be defined as 
+`Func<T, bool>`
+
+## Extension Methods
+**Syntax:**
+
+**Notes:**  
+The extension method has not special indicator showing it is an extension, but
+it does need to be static and part of a static class.  
+
+The first parameter to an extension method is passed in automatically and does 
+not need to be passed by the code. So if you have an extension method which 
+operates on a List of Employee records, defined as  
+`public static List<T> Filter(this List<T> records, Func<T, bool> func)`  
+and call it as  
+`employeeList.Filter(employee => employee.IsManager == true);`
+
+Related to the above, using `this` keyword in the method definition tells the compiler that the 
+parameter is the object upon which this method was invoked.
+
+**Examples:**
 
 ## Ternary Operator: ?
 **Syntax:** `condition ? consequent : alternative`
