@@ -6,6 +6,9 @@
                  name="Instance Name"
                  start-page="c-notes.md">
 
+    <toc-element topic="Postgresql.md"/>
+    <toc-element topic="C-Logging.md"/>
+    <toc-element topic="Publishing-Nuget-Packages.md"/>
     <toc-element topic="Git-and-GitHub.md"/>
     <toc-element topic="Entity-Framework-Core.md"/>
     <toc-element topic="Useful-Homebrew-Setup-macOS.md"/>
